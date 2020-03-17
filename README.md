@@ -1,1 +1,2 @@
-# MIT_DS
+## Program練習
+# 参考書:MIT標準

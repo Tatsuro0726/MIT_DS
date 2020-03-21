@@ -204,21 +204,25 @@
 
 # sample:read - 2
 # 改行なし
-nameHandle = open('kids', 'w')
-nameHandle.write('Michale\n')
-nameHandle.write('Mark\n')
-nameHandle.close()
-nameHandle = open('kids', 'r')
-for line in nameHandle:
-    print(line[:-1]) # 改行なし：行末から-1を読み込んでいるから
-nameHandle.close()
+# nameHandle = open('kids', 'w')
+# nameHandle.write('Michale\n')
+# nameHandle.write('Mark\n')
+# nameHandle.close()
+# nameHandle = open('kids', 'r')
+# for line in nameHandle:
+#     print(line[:-1]) # 改行なし：行末から-1を読み込んでいるから
+# nameHandle.close()
 
-# 追加書き込み
-nameHandle = open('kids', 'a')
-nameHandle.write('David\n')
-nameHandle.write('Andrea\n')
-nameHandle.close()
+# # 追加書き込み
+# nameHandle = open('kids', 'a')
+# nameHandle.write('David\n')
+# nameHandle.write('Andrea\n')
+# nameHandle.close()
+# nameHandle = open('kids', 'r')
+# for line in nameHandle:
+#     print(line[:-1])  # \nを回避
+# nameHandle.close()
+
 nameHandle = open('kids', 'r')
-for line in nameHandle:
-    print(line[:-1])  # \nを回避
-nameHandle.close()
+for i in nameHandle.readlines():
+    print(i[:-1])

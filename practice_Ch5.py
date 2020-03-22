@@ -175,3 +175,92 @@ Techs.append('RPI')
 # print(L)
 
 # 5.5：文字列,タプル,範囲とリスト
+# str型のビルトインメソッド
+# str1 = 'sample string '
+# print(str1.count('s'))
+# print(str1[str1.find('a')])
+# print(str1.rfind('a'))
+# print(str1.lower())
+# print(str1.upper())
+# print(str1.rstrip())
+
+# str2 = 'David Guttag plays basketball'
+
+# print(str2.split(' '))
+# print(str2.split())  # 空白の場合、任意の空白文字列で分けられたものとなる。
+
+# sample:split
+# string = 'My favorite professor--John G.--rocks'
+# print(string.split(' '))
+# print(string.split('-'))
+# print(string.split('--'))
+
+# 5.6 辞書
+# 辞書型はindexがなく番号でアクセスできない.
+# monthNumbers = {'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5, 1: 'Jan', 2: 'Feb', 3: 'Mar', 4: 'Apr', 5: 'May'}
+# print('The third month is' + monthNumbers[3])
+# dist = monthNumbers['Apr'] - monthNumbers['Jan']
+# print('Apr and Jan are',dist, 'months apart')
+
+# #Figure 5.9
+# EtoF = {'bread':'pain', 'wine':'vin', 'with':'avec', 'I':'Je',
+#         'eat':'mange', 'drink':'bois', 'John':'Jean',
+#         'friends':'amis', 'and': 'et', 'of':'du','red':'rouge'}
+# FtoE = {'pain':'bread', 'vin':'wine', 'avec':'with', 'Je':'I',
+#         'mange':'eat', 'bois':'drink', 'Jean':'John',
+#         'amis':'friends', 'et':'and', 'du':'of', 'rouge':'red'}
+# dicts = {'English to French':EtoF, 'French to English':FtoE}
+
+# def translateWord(word, dictionary):
+#     if word in dictionary.keys():
+#         return dictionary[word]
+#     elif word != '':
+#         return '"' + word + '"'
+#     return word
+
+# def translate(phrase, dicts, direction):
+#     UCLetters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+#     LCLetters = 'abcdefghijklmnopqrstuvwxyz'
+#     letters = UCLetters + LCLetters
+#     dictionary = dicts[direction]
+#     translation = ''
+#     word = ''
+#     for c in phrase:
+#         if c in letters:
+#             word = word + c
+#         else:
+#             translation = translation \
+#                             + translateWord(word, dictionary) + c
+#             word = ''
+#     return translation + ' ' + translateWord(word, dictionary)
+
+# print(translate('I drink good red wine, and eat bread.', dicts, 'English to French'))
+
+# # 辞書は可変性を持つ
+# FtoE['bois'] = 'wood' # bois:drink が bois:woodになってしまう
+
+# # 辞書型では、keyが反復可能
+# monthNumbers = {'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5, 1: 'Jan', 2: 'Feb', 3: 'Mar', 4: 'Apr', 5: 'May'}
+# keys = []
+# for e in monthNumbers:
+#     keys.append(str(e))
+# print(keys)
+# keys.sort()
+# print(keys)
+
+birthStones = {'Jab': 'Gartnet', 'Feb': 'Amethyst', 'Mar': 'Aquamarine', 'Apr': 'Diamond', 'May': 'Emerald'}
+# months = birthStones.keys() # keyのビューを参照している
+# print(months)
+# birthStones['June'] = 'Pearl' # 辞書に追加
+# print(months)  # 参照しているので、birthStonesの変更が反映されたものが確認できる
+# 辞書のメソッド
+print(len(birthStones))
+print(birthStones.keys())
+print(birthStones.values())
+print(birthStones.get('Jab', None))
+print(birthStones.get('Dec', None))
+
+birthStones['test'] = 'test_value'
+print(birthStones.keys())
+del birthStones['test']
+print(birthStones.keys())

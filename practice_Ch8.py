@@ -119,23 +119,23 @@ class Person(object):
 
 # 8.2 継承(inheritance)
 # # Sample
-# class MITPerson(Person): # Personクラスを継承
+class MITPerson(Person): # Personクラスを継承
 
-#     nextIdNum = 0  # 個人識別番号
+    nextIdNum = 0  # 個人識別番号
     
-#     def __init__(self, name):
-#         Person.__init__(self, name)
-#         self.idNum = MITPerson.nextIdNum
-#         MITPerson.nextIdNum += 1
+    def __init__(self, name):
+        Person.__init__(self, name)
+        self.idNum = MITPerson.nextIdNum
+        MITPerson.nextIdNum += 1
 
-#     def getIdNum(self):
-#         return self.idNum
+    def getIdNum(self):
+        return self.idNum
     
-#     def __lt__(self, other):
-#         return self.idNum < other.idNum
+    def __lt__(self, other):
+        return self.idNum < other.idNum
 
-#     def isStudent(self):
-#         return isinstance(self, Student)
+    def isStudent(self):
+        return isinstance(self, Student)
 
 
 # テストコード
@@ -156,18 +156,18 @@ class Person(object):
 
 # 8.2.1 多重継承
 # # Sample
-# class Student(MITPerson):  # MITPersonを継承: Personクラス > MITPerson
-#     pass  # スーパークラスから継承する属性以外は何も持たない宣言
+class Student(MITPerson):  # MITPersonを継承: Personクラス > MITPerson
+    pass  # スーパークラスから継承する属性以外は何も持たない宣言
 
-# class UG(Student):  # Studentクラスを継承
-#     def __init__(self, name, classYear): # __init__をオーバライド
-#         MITPerson.__init__(self, name)
-#         self.year = classYear
-#     def getClass(self):
-#         return self.year
+class UG(Student):  # Studentクラスを継承
+    def __init__(self, name, classYear): # __init__をオーバライド
+        MITPerson.__init__(self, name)
+        self.year = classYear
+    def getClass(self):
+        return self.year
 
-# class Grad(Student):
-#     pass  # Studentクラスからそのまま継承
+class Grad(Student):
+    pass  # Studentクラスからそのまま継承
 
 # テストコード
 # p5 = Grad('Buzz Aldrin')
@@ -191,62 +191,65 @@ class Person(object):
 #         return self.fromSchool
 
 # 8.3 カプセル化と情報隠蔽
-# class Grades(object):
-#     def __init__(self):
-#         """空の成績ブックを生成する"""
-#         self.students = []
-#         self.grades = {}
-#         self.isSorted = True
+class Grades(object):
+    def __init__(self):
+        """空の成績ブックを生成する"""
+        self.students = []
+        self.grades = {}
+        self.isSorted = True
     
-#     def addStudent(self, student):
-#         """studentをStudent型とする
-#            studentを成績ブックへ追加する"""
-#         if student in self.students: # 事前に登録されている場合
-#             raise ValueError('Duplicate student')
-#         self.students.append(student)
-#         self.grades[student.getIdNum()] = []
-#         self.isSorted = False
+    def addStudent(self, student):
+        """studentをStudent型とする
+           studentを成績ブックへ追加する"""
+        if student in self.students: # 事前に登録されている場合
+            raise ValueError('Duplicate student')
+        self.students.append(student)
+        self.grades[student.getIdNum()] = []
+        self.isSorted = False
 
-#     def addGrade(self, student, grade):
-#         """gradeをfloat型とする
-#            gradeをstudentの成績リストへ追加する"""
-#         try:
-#             self.grades[student.getIdNum()].append(grade)
-#         except:
-#             raise ValueError('Student not in mapping')
+    def addGrade(self, student, grade):
+        """gradeをfloat型とする
+           gradeをstudentの成績リストへ追加する"""
+        try:
+            self.grades[student.getIdNum()].append(grade)
+        except:
+            raise ValueError('Student not in mapping')
     
-#     def getGrades(self, student):
-#         """studentの成績リストを返す"""
-#         try:  # studentの成績リストのコピーを返す
-#             return self.grades[student.getIdNum()][:]
-#         except:
-#             raise ValueError('Student not in mapping')
+    def getGrades(self, student):
+        """studentの成績リストを返す"""
+        try:  # studentの成績リストのコピーを返す
+            return self.grades[student.getIdNum()][:]
+        except:
+            raise ValueError('Student not in mapping')
 
-#     def getStudent(self):
-#         """成績ブックに収められた学生の、ソートされたリストを返す"""
-#         if not self.isSorted:  # Falseの場合
-#             self.students.sort()
-#             self.isSorted = True
-#         return self.students[:]  # 学生のリストのコピーを返す
+    def getStudent(self):
+        """成績ブックに収められた学生のリスト
+           アルファベット順に、一度に1要素ずつ返す"""
+        if not self.isSorted:  # Falseの場合
+            self.students.sort()
+            self.isSorted = True
+        for s in self.students:
+            yield s             # generatorであると判断
+        # return self.students[:]  # 学生のリストのコピーを返す
 
-# # sixHundredという名前の講義に登録している学生の成績レポートを作成する関数
-# def gradeReport(course):
-#     """courseをGrade型とする"""
-#     report = ''
-#     for s in course.getStudent():
-#         tot = 0.0
-#         numGrade = 0
-#         for g in course.getGrades(s):
-#             tot += g
-#             numGrade += 1
-#         try:
-#             average = tot / numGrade
-#             report = report + '\n'\
-#                         + str(s) + '\'s mean grade is ' + str(average)
-#         except ZeroDivisionError:
-#             report = report + '\n'\
-#                         + str(s) + 'has no grades'
-#     return report
+# sixHundredという名前の講義に登録している学生の成績レポートを作成する関数
+def gradeReport(course):
+    """courseをGrade型とする"""
+    report = ''
+    for s in course.getStudent():
+        tot = 0.0
+        numGrade = 0
+        for g in course.getGrades(s):
+            tot += g
+            numGrade += 1
+        try:
+            average = tot / numGrade
+            report = report + '\n'\
+                        + str(s) + '\'s mean grade is ' + str(average)
+        except ZeroDivisionError:
+            report = report + '\n'\
+                        + str(s) + 'has no grades'
+    return report
 
 # ug1 = UG('Jane Doe', 2014)
 # ug2 = UG('John Doe', 2015)
@@ -277,41 +280,50 @@ class Person(object):
 
 # 情報隠蔽(java, c++のprivate的なもの)
 # Sample 
-class infoHiding(object):
-    def __init__(self):
-        self.visible = 'Look at me'
-        self.__alsovisible__ = 'Look at me too'
-        self.__invisible = 'Don\'t look at me directly'  # privateと同じ
+# class infoHiding(object):
+#     def __init__(self):
+#         self.visible = 'Look at me'
+#         self.__alsovisible__ = 'Look at me too'
+#         self.__invisible = 'Don\'t look at me directly'  # privateと同じ
     
-    def printVisible(self):
-        print(self.visible)
+#     def printVisible(self):
+#         print(self.visible)
 
-    def printInvisible(self):
-        print(self.__invisible)
+#     def printInvisible(self):
+#         print(self.__invisible)
     
-    def __printInvisible(self):
-        print(self.__invisible)
+#     def __printInvisible(self):
+#         print(self.__invisible)
 
-    def __printInvisible__(self):
-        print(self.__invisible)
+#     def __printInvisible__(self):
+#         print(self.__invisible)
 
 # 変数の隠蔽確認コード
-test = infoHiding()
-print(test.visible) # OK
-print(test.__alsovisible__)  #OK
+# test = infoHiding()
+# print(test.visible) # OK
+# print(test.__alsovisible__)  #OK
 #print(test.__invisble)  #NG:外からアクセスできない
 
 # メソッドの隠蔽確認コード
-test.printInvisible() #OK
-test.__printInvisible__() # OK
+# test.printInvisible() #OK
+# test.__printInvisible__() # OK
 # test.__printInvisible() # NG:外からは使用できない
 
 # subclassのとき
-class subClass(infoHiding):
-    def __init__(self):
-        print('from subclass', self.__invisble)  # NG:infoHidingで隠蔽した__invisibleが使えない
+# class subClass(infoHiding):
+#     def __init__(self):
+#         print('from subclass', self.__invisble)  # NG:infoHidingで隠蔽した__invisibleが使えない
 
 # testSub = subClass()    # Error:サブクラスがスーパークラスで隠蔽された属性を使用するときAttribute Errorが発生
 # ⇒上記がPythonにおける情報隠蔽を少しばかり厄介にしている⇒なのであまり__の命名規則は利用しない人が多い
 # __を使用しないことにより、クラス定義外でインスタンス変数を生成したり、クラス変数に直接アクセスできてしまう
 # 上記に注意しながらプログラムを各必要がある
+
+# ジェネレータ
+book = Grades()
+book.addStudent(Grad('Julie'))
+book.addStudent(Grad('Charlie'))
+for s in book.getStudent():
+    print(s)
+
+# 8.4 発展例：住宅ローン

@@ -89,5 +89,42 @@ def mergeSort(L, compare=lambda x, y: x < y):  # 関数を引数としている
         right = mergeSort(L[middle:], compare)
         return merge(left, right, compare)
 
-L = [2, 1, 4, 5, 3]
-print(mergeSort(L), mergeSort(L, lambda x, y: x > y)) # x > yは昇順
+# L = [2, 1, 4, 5, 3]
+# print(mergeSort(L), mergeSort(L, lambda x, y: x > y)) # x > yは昇順
+
+#10.2.3 Pythonにおけるソーティング
+def lastNameFirstName(name1, name2):
+    arg1 = name1.split(' ')
+    arg2 = name2.split(' ')
+    if arg1[1] != arg2[1]:
+        return arg1[1] < arg2[1]
+    else:  #姓が同じ場合、名前でソート
+        return arg1[0] < arg2[0]
+
+def firstNamelastName(name1, name2):
+    arg1 = name1.split(' ')
+    arg2 = name2.split(' ')
+    if arg1[0] != arg2[0]:
+        return arg1[0] < arg2[0]
+    else:  #名が同じ場合、姓でソート
+        return arg1[1] < arg2[1]
+
+# テストコード
+L = ['Tom Brady', 'Eric Grimson', 'Gisele Bundchen']
+newL = mergeSort(L, lastNameFirstName)
+print('Sorted by last name =', newL)
+newL = mergeSort(L, firstNamelastName)
+print('Sorted by first name =', newL)
+
+# pythonのソート
+# L = [3, 5, 2]
+# D = {'a': 12, 'c': 5, 'b':'dog'}
+# print(sorted(L))
+# print(L)
+# L.sort() # リストを変更してしまう
+# print(L)
+# print(sorted(D))
+# D.sort() #dict型はソートできない
+
+L = [[1, 2, 3], (3, 2, 1, 0), 'abc',[1,2,3,4,5,6,7]]
+print(sorted(L, key=len, reverse=True))  # key=len:リストの長さが長い順にソート
